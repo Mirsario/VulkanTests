@@ -7,27 +7,27 @@ Uses [Silk.NET](https://github.com/dotnet/Silk.NET) bindings, does not use any i
 The following parts of [vulkan-tutorial.com](https://vulkan-tutorial.com) have been passed:
 
 ```diff
-+++ Drawing a triangle
+### Drawing a triangle
 
-++++++ Setup
+###### Setup
 + Instance
 + Validation Layers
 + Physical devices and queue families
 + Logical device and queues
 
-++++++ Presentation
+###### Presentation
 + Window Surface
 ? Swap Chain
   Image views
 
-++++++ Graphics pipeline basics
+###### Graphics pipeline basics
   Introduction
   Shader modules
   Fixed functions
   Render passes
   Conclusion
 
-++++++ Drawing
+###### Drawing
   Framebuffers
   Command buffers
   Rendering presentation
@@ -35,26 +35,26 @@ The following parts of [vulkan-tutorial.com](https://vulkan-tutorial.com) have b
 
 Swap chain recreation
 
-+++ Vertex buffers
+### Vertex buffers
   Vertex input description
   Vertex buffer creation
   Staging buffer
   Index buffer
 
-+++ Uniform buffers
+### Uniform buffers
   Descriptor layout and buffer
   Descriptor pool and sets
 
-+++ Texture mapping
+### Texture mapping
   Images
   Image view and sampler
   Combined image sampler
 
-+++ Depth buffering
+### Depth buffering
 
-+++ Loading models
+### Loading models
 
-+++ Generating mipmaps
+### Generating mipmaps
 
-+++ Multisampling
+### Multisampling
 ```
