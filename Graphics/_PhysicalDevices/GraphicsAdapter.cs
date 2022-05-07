@@ -16,6 +16,7 @@ namespace VulkanTests.Graphics
 		public readonly PhysicalDeviceFeatures Features;
 		public readonly PhysicalDeviceProperties Properties;
 		public readonly QueueFamilyIndices QueueFamilyIndices;
+		public readonly SurfaceSupportDetails SurfaceSupportDetails;
 		public readonly IReadOnlyList<IAdapterDiagnostic> Diagnostics;
 
 		private readonly GraphicsLayerInfo[] supportedLayers;
@@ -34,6 +35,7 @@ namespace VulkanTests.Graphics
 			Vulkan.GetPhysicalDeviceFeatures(Handle, out Features);
 			Vulkan.GetPhysicalDeviceProperties(Handle, out Properties);
 			QueueFamilyIndices = QueueManagement.FindQueueFamilies(Handle, surface);
+			SurfaceSupportDetails = SurfaceManagement.GetSurfaceSupportDetails(this, surface);
 
 			fixed (byte* namePtr = Properties.DeviceName) {
 				Name = Marshal.PtrToStringAnsi((IntPtr)namePtr) ?? "Unknown";

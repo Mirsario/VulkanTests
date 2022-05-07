@@ -35,5 +35,46 @@ namespace VulkanTests.Graphics
 				surface = null;
 			}
 		}
+
+		public static SurfaceSupportDetails GetSurfaceSupportDetails(GraphicsAdapter graphicsAdapter, SurfaceKHR surface)
+		{
+			// Capabilities
+
+			VulkanKhrSurface.GetPhysicalDeviceSurfaceCapabilities(graphicsAdapter.Handle, surface, out var surfaceCapabilities);
+
+			// Formats
+
+			uint formatCount;
+			var formats = Array.Empty<SurfaceFormatKHR>();
+
+			VulkanKhrSurface.GetPhysicalDeviceSurfaceFormats(graphicsAdapter.Handle, surface, &formatCount, null);
+
+			if (formatCount != 0) {
+				formats = new SurfaceFormatKHR[formatCount];
+
+				fixed (SurfaceFormatKHR* formatsPtr = formats) {
+					VulkanKhrSurface.GetPhysicalDeviceSurfaceFormats(graphicsAdapter.Handle, surface, &formatCount, formatsPtr);
+				}
+			}
+
+			// Present modes
+
+			uint presentModesCount;
+			var presentModes = Array.Empty<PresentModeKHR>();
+
+			VulkanKhrSurface.GetPhysicalDeviceSurfacePresentModes(graphicsAdapter.Handle, surface, &presentModesCount, null);
+
+			if (presentModesCount != 0) {
+				presentModes = new PresentModeKHR[presentModesCount];
+
+				fixed (PresentModeKHR* presentModesPtr = presentModes) {
+					VulkanKhrSurface.GetPhysicalDeviceSurfacePresentModes(graphicsAdapter.Handle, surface, &presentModesCount, presentModesPtr);
+				}
+			}
+
+			// Return
+
+			return new SurfaceSupportDetails(surfaceCapabilities, formats, presentModes);
+		}
 	}
 }
