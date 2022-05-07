@@ -24,7 +24,7 @@ namespace VulkanTests.Graphics
 
 			surface = SurfaceManagement.CreateSurface(VulkanInstance, Windowing.WindowHandle);
 
-			GraphicsAdapterManagement.RefreshGraphicsAdapters(VulkanInstance, surface);
+			GraphicsAdapterManagement.RefreshGraphicsAdapters(VulkanInstance, Surface);
 
 			graphicsDevice = GraphicsDeviceManagement.CreateGraphicsDevice(VulkanInstance, GraphicsAdapterManagement.SelectGraphicsAdapter());
 

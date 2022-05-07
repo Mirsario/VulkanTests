@@ -27,7 +27,7 @@ namespace VulkanTests.Graphics
 		public IReadOnlyList<GraphicsLayerInfo> SupportedLayers => supportedLayers;
 		public IReadOnlyList<GraphicsExtensionInfo> SupportedExtensions => supportedExtensions;
 
-		internal unsafe GraphicsAdapter(PhysicalDevice handle, SurfaceKHR? surface)
+		internal unsafe GraphicsAdapter(PhysicalDevice handle, SurfaceKHR surface)
 		{
 			Handle = handle;
 
