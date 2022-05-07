@@ -11,10 +11,6 @@ namespace VulkanTests
 
 			Logging.Engine.Info("Initializing...");
 
-			ThreadPool.QueueUserWorkItem(c => {
-
-			});
-
 			Windowing.Initialize();
 			Rendering.Initialize();
 

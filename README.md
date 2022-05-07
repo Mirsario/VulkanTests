@@ -1,7 +1,7 @@
 # VulkanTests
 A personal Vulkan learning project with mostly super clean & reusable C# code.
 
-Uses [Silk.NET](https://github.com/dotnet/Silk.NET) bindings, does not use any its wrappers.
+Uses [Silk.NET](https://github.com/dotnet/Silk.NET) bindings, does not use any of its wrappers.
 
 ## Progress
 The following parts of [vulkan-tutorial.com](https://vulkan-tutorial.com) have been passed:
