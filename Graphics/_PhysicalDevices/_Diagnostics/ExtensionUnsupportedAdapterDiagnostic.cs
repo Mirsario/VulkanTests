@@ -8,11 +8,11 @@
 		public string Description { get; }
 		public DiagnosticSeverity Severity { get; }
 
-		public ExtensionUnsupportedAdapterDiagnostic(string extension, DiagnosticSeverity severity) : this()
+		public ExtensionUnsupportedAdapterDiagnostic(string extension, bool isOptional) : this()
 		{
 			Extension = extension;
-			Description = $"{(severity == DiagnosticSeverity.Error ? "Required" : "Optional")} extension not supported: {extension}";
-			Severity = severity;
+			Description = $"{(isOptional ? "Optional" : "Required")} extension not supported: {extension}";
+			Severity = isOptional ? DiagnosticSeverity.Warning : DiagnosticSeverity.Error;
 		}
 	}
 }

@@ -11,7 +11,15 @@ namespace VulkanTests.Graphics
 
 		public static ReadOnlySpan<GraphicsAdapter> AvailableAdapters => new(availableAdapters);
 
-		public static void RefreshGraphicsAdapters(VulkanInstance vkInstance, SurfaceKHR? surface)
+		public static event Action<GraphicsAdapter>? OnAdapterDiagnosis;
+
+		static GraphicsAdapterManagement()
+		{
+			OnAdapterDiagnosis += AnalyzeAdapterExtensions;
+			OnAdapterDiagnosis += AnalyzeAdapterQueues;
+		}
+
+		public static void RefreshGraphicsAdapters(VulkanInstance vkInstance, SurfaceKHR surface)
 		{
 			uint physicalDeviceCount = 0;
 
@@ -30,7 +38,7 @@ namespace VulkanTests.Graphics
 			for (int i = 0; i < physicalDeviceCount; i++) {
 				var adapter = new GraphicsAdapter(physicalDevices[i], surface);
 
-				CreateAdapterDiagnostics(adapter);
+				OnAdapterDiagnosis?.Invoke(adapter);
 
 				availableAdapters[i] = adapter;
 			}
@@ -99,23 +107,30 @@ namespace VulkanTests.Graphics
 			return score;
 		}
 
-		private static void CreateAdapterDiagnostics(GraphicsAdapter adapter)
-		{
-			if (!adapter.QueueFamilyIndices.IsComplete) {
-				//return 0;
-			}
+		// Analysis
 
+		private static void AnalyzeAdapterExtensions(GraphicsAdapter adapter)
+		{
 			var supportedExtensions = adapter.SupportedExtensions;
 
 			foreach (string deviceExtension in GraphicsExtensions.OptionalDeviceExtensions) {
 				if (!supportedExtensions.Any(e => e.Name == deviceExtension)) {
-					adapter.AddDiagnostic(new ExtensionUnsupportedAdapterDiagnostic(deviceExtension, DiagnosticSeverity.Warning));
+					adapter.AddDiagnostic(new ExtensionUnsupportedAdapterDiagnostic(deviceExtension, isOptional: true));
 				}
 			}
 
 			foreach (string deviceExtension in GraphicsExtensions.RequiredDeviceExtensions) {
 				if (!supportedExtensions.Any(e => e.Name == deviceExtension)) {
-					adapter.AddDiagnostic(new ExtensionUnsupportedAdapterDiagnostic(deviceExtension, DiagnosticSeverity.Error));
+					adapter.AddDiagnostic(new ExtensionUnsupportedAdapterDiagnostic(deviceExtension, isOptional: false));
+				}
+			}
+		}
+
+		private static void AnalyzeAdapterQueues(GraphicsAdapter adapter)
+		{
+			foreach (var (index, name) in adapter.QueueFamilyIndices.Enumerate()) {
+				if (!index.HasValue) {
+					adapter.AddDiagnostic(new MissingQueueAdapterDiagnostic(name));
 				}
 			}
 		}
